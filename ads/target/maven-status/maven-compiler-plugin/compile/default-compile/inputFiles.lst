@@ -1,0 +1,10 @@
+/Users/david/Desktop/SpringBoot/estate-front-demo/estate/ads/src/main/java/com/example/ads/dto/AdsDto.java
+/Users/david/Desktop/SpringBoot/estate-front-demo/estate/ads/src/main/java/com/example/ads/dto/AdsTypeDto.java
+/Users/david/Desktop/SpringBoot/estate-front-demo/estate/ads/src/main/java/com/example/ads/mapper/AdsMapper.java
+/Users/david/Desktop/SpringBoot/estate-front-demo/estate/ads/src/main/java/com/example/ads/mapper/AdsTypeMapper.java
+/Users/david/Desktop/SpringBoot/estate-front-demo/estate/ads/src/main/java/com/example/ads/model/Ads.java
+/Users/david/Desktop/SpringBoot/estate-front-demo/estate/ads/src/main/java/com/example/ads/model/AdsType.java
+/Users/david/Desktop/SpringBoot/estate-front-demo/estate/ads/src/main/java/com/example/ads/repository/AdsRepository.java
+/Users/david/Desktop/SpringBoot/estate-front-demo/estate/ads/src/main/java/com/example/ads/repository/AdsTypeRepository.java
+/Users/david/Desktop/SpringBoot/estate-front-demo/estate/ads/src/main/java/com/example/ads/service/AdsService.java
+/Users/david/Desktop/SpringBoot/estate-front-demo/estate/ads/src/main/java/com/example/ads/service/AdsTypeService.java

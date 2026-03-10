@@ -1,0 +1,10 @@
+com/example/ads/dto/AdsTypeDto.class
+com/example/ads/model/Ads.class
+com/example/ads/repository/AdsTypeRepository.class
+com/example/ads/mapper/AdsTypeMapper.class
+com/example/ads/service/AdsTypeService.class
+com/example/ads/service/AdsService.class
+com/example/ads/repository/AdsRepository.class
+com/example/ads/dto/AdsDto.class
+com/example/ads/model/AdsType.class
+com/example/ads/mapper/AdsMapper.class

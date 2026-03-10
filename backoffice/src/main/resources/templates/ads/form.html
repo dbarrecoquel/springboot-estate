@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<head>
+  <title th:text="${pageTitle} + ' — ImmoBack'">Annonce — ImmoBack</title>
+</head>
+<body>
+<section>
+
+  <div class="page-header">
+    <div>
+      <h1 th:text="${pageTitle}">Annonce</h1>
+      <p class="subtitle">Renseignez les informations du bien.</p>
+    </div>
+    <a th:href="@{/ads}" class="btn btn-secondary">← Retour à la liste</a>
+  </div>
+
+  <div class="form-card">
+    <!--
+      On bind sur l'entité Ads directement.
+      L'id du type est transmis via un champ séparé "adstypeId"
+      géré manuellement dans AdsController.save().
+    -->
+    <form th:action="${formAction}" th:object="${ads}" method="post">
+
+      <input type="hidden" th:field="*{id}"/>
+
+      <!-- ── Titre ──────────────────────────────────────── -->
+      <div class="form-group">
+        <label for="name">Titre de l'annonce <span class="required">*</span></label>
+        <input type="text"
+               id="name"
+               th:field="*{name}"
+               placeholder="Ex : Bel appartement T3 en centre-ville"
+               required
+               autofocus/>
+      </div>
+
+      <!-- ── Description ───────────────────────────────── -->
+      <div class="form-group">
+        <label for="description">Description</label>
+        <textarea id="description"
+                  th:field="*{description}"
+                  placeholder="Décrivez le bien, ses atouts, l'environnement…"></textarea>
+      </div>
+
+      <!-- ── Type de bien ───────────────────────────────── -->
+      <div class="form-group">
+        <label for="adstypeId">Type de bien</label>
+        <select id="adstypeId" name="adstypeId">
+          <option value="">— Sélectionner un type —</option>
+          <option th:each="type : ${adstypes}"
+                  th:value="${type.id}"
+                  th:text="${type.name}"
+                  th:selected="${selectedAdsTypeId != null and selectedAdsTypeId == type.id}">
+          </option>
+        </select>
+      </div>
+
+      <!-- ── Pièces & Surface ───────────────────────────── -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="rooms">Nombre de pièces</label>
+          <input type="number" id="rooms" th:field="*{rooms}" min="1"
+                 placeholder="Ex : 3"/>
+        </div>
+        <div class="form-group">
+          <label for="surface">Surface (m²)</label>
+          <input type="number" id="surface" th:field="*{surface}" min="1"
+                 placeholder="Ex : 75"/>
+        </div>
+      </div>
+
+      <!-- ── Prix ──────────────────────────────────────── -->
+      <div class="form-group">
+        <label for="price">Prix (€)</label>
+        <input type="number" id="price" th:field="*{price}"
+               min="0" step="0.01"
+               placeholder="Ex : 250000"/>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          <span th:text="${ads.id == null ? 'Créer' : 'Enregistrer les modifications'}">
+            Enregistrer
+          </span>
+        </button>
+        <a th:href="@{/ads}" class="btn btn-secondary">Annuler</a>
+      </div>
+
+    </form>
+  </div>
+
+</section>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<head>
+  <title>Types d'annonces — ImmoBack</title>
+</head>
+<body>
+<section>
+
+  <div class="page-header">
+    <div>
+      <h1>Types d'annonces</h1>
+      <p class="subtitle">Catégories de biens : appartement, maison, terrain…</p>
+    </div>
+    <a th:href="@{/adstypes/new}" class="btn btn-primary">+ Nouveau type</a>
+  </div>
+
+  <div class="table-wrapper">
+    <table th:if="${not #lists.isEmpty(adstypes)}">
+      <thead>
+        <tr>
+          <th style="width:60px">#</th>
+          <th>Libellé</th>
+          <th style="width:180px">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="type : ${adstypes}">
+          <td class="cell-id" th:text="${type.id}"></td>
+          <td>
+            <span class="badge" th:text="${type.name}"></span>
+          </td>
+          <td>
+            <div class="td-actions">
+              <a th:href="@{'/adstypes/' + ${type.id} + '/edit'}" class="btn btn-edit">Modifier</a>
+              <form th:action="@{'/adstypes/' + ${type.id} + '/delete'}" method="post"
+                    onsubmit="return confirm('Supprimer ce type ?')">
+                <button type="submit" class="btn btn-danger">Supprimer</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div th:if="${#lists.isEmpty(adstypes)}" class="empty-state">
+      <div class="empty-icon"></div>
+      <p>Aucun type d'annonce enregistré.</p>
+      <a th:href="@{/adstypes/new}" class="btn btn-primary" style="margin-top:1.25rem">
+        Créer le premier type
+      </a>
+    </div>
+  </div>
+
+</section>
+</body>
+</html>

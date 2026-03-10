@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<head>
+  <title>Annonces — ImmoBack</title>
+</head>
+<body>
+<section>
+
+  <div class="page-header">
+    <div>
+      <h1>Annonces</h1>
+      <p class="subtitle">Toutes les annonces immobilières publiées.</p>
+    </div>
+    <a th:href="@{/ads/new}" class="btn btn-primary">+ Nouvelle annonce</a>
+  </div>
+
+  <div class="table-wrapper">
+    <table th:if="${not #lists.isEmpty(ads)}">
+      <thead>
+        <tr>
+          <th style="width:55px">#</th>
+          <th>Titre</th>
+          <th>Pièces</th>
+          <th>Surface</th>
+          <th>Prix</th>
+          <th>Créée le</th>
+          <th style="width:190px">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr th:each="ad : ${ads}">
+          <td class="cell-id" th:text="${ad.id}"></td>
+          <td>
+            <strong th:text="${ad.name}"></strong>
+            <div class="cell-sub"
+                 th:if="${ad.description != null and !#strings.isEmpty(ad.description)}"
+                 th:text="${#strings.abbreviate(ad.description, 65)}"></div>
+          </td>
+          <td th:text="${ad.rooms != null ? ad.rooms + ' pce' : '—'}"></td>
+          <td th:text="${ad.surface != null ? ad.surface + ' m²' : '—'}"></td>
+          <td>
+            <span th:if="${ad.price != null}"
+                  th:text="${#numbers.formatDecimal(ad.price, 0, 'COMMA', 0, 'POINT') + ' €'}"></span>
+            <span th:unless="${ad.price != null}">—</span>
+          </td>
+          <td>
+            <span th:if="${ad.createdAt != null}"
+                  th:text="${#temporals.format(ad.createdAt, 'dd/MM/yyyy')}"></span>
+            <span th:unless="${ad.createdAt != null}">—</span>
+          </td>
+          <td>
+            <div class="td-actions">
+              <a th:href="@{'/ads/' + ${ad.id} + '/edit'}" class="btn btn-edit">Modifier</a>
+              <form th:action="@{'/ads/' + ${ad.id} + '/delete'}" method="post"
+                    onsubmit="return confirm('Supprimer cette annonce ?')">
+                <button type="submit" class="btn btn-danger">Supprimer</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div th:if="${#lists.isEmpty(ads)}" class="empty-state">
+      <div class="empty-icon"></div>
+      <p>Aucune annonce pour le moment.</p>
+      <a th:href="@{/ads/new}" class="btn btn-primary" style="margin-top:1.25rem">
+        Créer la première annonce
+      </a>
+    </div>
+  </div>
+
+</section>
+</body>
+</html>

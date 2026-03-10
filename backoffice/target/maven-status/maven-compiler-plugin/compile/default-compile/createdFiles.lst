@@ -1,0 +1,5 @@
+com/example/backoffice/BackOfficeApplication.class
+com/example/backoffice/config/SecurityConfig.class
+com/example/backoffice/controller/AdsTypeController.class
+com/example/backoffice/controller/AdsController.class
+com/example/backoffice/config/DataInitializer.class

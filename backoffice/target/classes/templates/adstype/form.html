@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+      th:replace="~{layout :: layout(~{::title}, ~{::section})}">
+<head>
+  <title th:text="${pageTitle} + ' — ImmoBack'">Type — ImmoBack</title>
+</head>
+<body>
+<section>
+
+  <div class="page-header">
+    <div>
+      <h1 th:text="${pageTitle}">Type d'annonce</h1>
+      <p class="subtitle">Renseignez le libellé du type de bien.</p>
+    </div>
+    <a th:href="@{/adstypes}" class="btn btn-secondary">← Retour à la liste</a>
+  </div>
+
+  <div class="form-card">
+    <form th:action="${formAction}" th:object="${adsType}" method="post">
+
+      <!-- id caché pour la mise à jour -->
+      <input type="hidden" th:field="*{id}"/>
+
+      <div class="form-group">
+        <label for="name">Libellé <span class="required">*</span></label>
+        <input type="text"
+               id="name"
+               th:field="*{name}"
+               placeholder="Ex : Appartement, Maison, Terrain, Studio…"
+               required
+               autofocus/>
+      </div>
+
+      <div class="form-actions">
+        <button type="submit" class="btn btn-primary">
+          <span th:text="${adsType.id == null ? 'Créer' : 'Enregistrer les modifications'}">
+            Enregistrer
+          </span>
+        </button>
+        <a th:href="@{/adstypes}" class="btn btn-secondary">Annuler</a>
+      </div>
+
+    </form>
+  </div>
+
+</section>
+</body>
+</html>
