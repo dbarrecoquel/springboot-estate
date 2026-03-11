@@ -26,7 +26,10 @@ public class Ads {
     private Integer rooms;
     private Integer surface;
     private Double price;
-    @OneToOne(fetch = FetchType.LAZY)
+    @Column(name = "adstype_id")
+    private Long adstypeId;
+
+    @OneToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "adstype_id", insertable = false, updatable = false)
     private AdsType adsType;
     @Column(name = "created_at", nullable = false)
@@ -34,7 +37,17 @@ public class Ads {
     
     @Column(name = "updated_at", nullable = false)
     private LocalDateTime updatedAt;
-    public Long getId() {
+    
+    
+    public Long getAdstypeId() {
+		return adstypeId;
+	}
+
+	public void setAdstypeId(Long adstypeId) {
+		this.adstypeId = adstypeId;
+	}
+
+	public Long getId() {
 		return id;
 	}
 

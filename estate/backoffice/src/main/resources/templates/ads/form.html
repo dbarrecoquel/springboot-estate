@@ -46,17 +46,16 @@
 
       <!-- ── Type de bien ───────────────────────────────── -->
       <div class="form-group">
-        <label for="adstypeId">Type de bien</label>
-        <select id="adstypeId" name="adstypeId">
-          <option value="">— Sélectionner un type —</option>
-          <option th:each="type : ${adstypes}"
-                  th:value="${type.id}"
-                  th:text="${type.name}"
-                  th:selected="${selectedAdsTypeId != null and selectedAdsTypeId == type.id}">
-          </option>
-        </select>
-      </div>
-
+		  <label for="adstypeId">Type de bien</label>
+		  <select id="adstypeId" name="adstypeId">
+		    <option value="">— Sélectionner un type —</option>
+		    <option th:each="type : ${adstypes}"
+		            th:value="${type.id}"
+		            th:text="${type.name}"
+		            th:selected="${ads.adstypeId != null and ads.adstypeId == type.id}">
+		    </option>
+		  </select>
+	</div>
       <!-- ── Pièces & Surface ───────────────────────────── -->
       <div class="form-row">
         <div class="form-group">

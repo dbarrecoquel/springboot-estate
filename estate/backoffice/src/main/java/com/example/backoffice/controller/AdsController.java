@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -59,10 +60,7 @@ public class AdsController {
                 .map(ads -> {
                     model.addAttribute("ads", ads);
                     model.addAttribute("adstypes", adsTypeService.getAllAdsType());
-                    // id du type sélectionné pour pré-sélectionner le <select>
-                    if (ads.getAdsType() != null) {
-                        model.addAttribute("selectedAdsTypeId", ads.getAdsType().getId());
-                    }
+                    
                     model.addAttribute("formAction", "/ads/save");
                     model.addAttribute("pageTitle", "Modifier l'annonce");
                     return "ads/form";
@@ -78,15 +76,14 @@ public class AdsController {
     public String save(@ModelAttribute Ads ads,
                        @RequestParam(name = "adstypeId", required = false) Long adstypeId,
                        RedirectAttributes ra) {
-        if (adstypeId != null) {
-            AdsType adsType = adsTypeService.getAdsTypeById(adstypeId)
-                    .orElse(null);
-            ads.setAdsType(adsType);
-        } else {
-            ads.setAdsType(null);
+    	if (ads.getId() != null) {
+            adsService.getAdsById(ads.getId()).ifPresent(existing -> {
+                ads.setCreatedAt(existing.getCreatedAt());
+            });
         }
-
+    	ads.setAdstypeId(adstypeId);
         boolean isNew = ads.getId() == null;
+        ads.setUpdatedAt(LocalDateTime.now());
         adsService.saveAds(ads);
         ra.addFlashAttribute("successMessage",
                 isNew ? "Annonce créée avec succès." : "Annonce modifiée avec succès.");

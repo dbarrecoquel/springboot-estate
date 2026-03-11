@@ -6,6 +6,13 @@ import com.example.ads.model.Ads;
 @Component
 public class AdsMapper {
 	
+	private final AdsTypeMapper adsTypeMapper;
+	
+	public AdsMapper(AdsTypeMapper adsTypeMapper)
+	{
+		this.adsTypeMapper = adsTypeMapper;
+	}
+	
 	public AdsDto toDto(Ads ads){
 		
 		if (ads == null)
@@ -19,7 +26,7 @@ public class AdsMapper {
 		adsDto.setRooms(ads.getRooms());
 		adsDto.setSurface(ads.getSurface());
 		adsDto.setCreatedAt(ads.getCreatedAt());
-		
+		adsDto.setAdsTypeDto(adsTypeMapper.toDto(ads.getAdsType()));
 		return adsDto;
 	}
 }

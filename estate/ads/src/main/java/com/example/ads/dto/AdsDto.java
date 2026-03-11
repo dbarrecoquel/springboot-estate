@@ -11,8 +11,15 @@ public class AdsDto {
     private Double price;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;
+    private AdsTypeDto adsTypeDto;
     
-    public String getName() {
+    public AdsTypeDto getAdsTypeDto() {
+		return adsTypeDto;
+	}
+	public void setAdsTypeDto(AdsTypeDto adsTypeDto) {
+		this.adsTypeDto = adsTypeDto;
+	}
+	public String getName() {
 		return name;
 	}
 	public void setName(String name) {

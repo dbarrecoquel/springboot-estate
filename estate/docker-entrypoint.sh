@@ -52,6 +52,21 @@ echo "✅ BackOffice started with PID: $BACKOFFICE_PID"
 # Attendre que BackOffice démarre
 sleep 10
 
+echo "======================================"
+echo "🌐 Starting FrontRest API on port 8082 (DEBUG MODE)"
+echo "======================================"
+java -jar frontrest.jar \
+    --server.port=8082 \
+    --spring.datasource.url=${SPRING_DATASOURCE_URL} \
+    --spring.datasource.username=${SPRING_DATASOURCE_USERNAME} \
+    --spring.datasource.password=${SPRING_DATASOURCE_PASSWORD} \
+    --spring.kafka.bootstrap-servers=${SPRING_KAFKA_BOOTSTRAP_SERVERS} \
+    --debug &
+
+FRONTREST_PID=$!
+echo "✅ FrontRest started with PID: $FRONTREST_PID"
+
+
 echo ""
 echo "======================================"
 echo "✅ All services started!"
@@ -63,8 +78,8 @@ cleanup() {
     echo "======================================"
     echo "🛑 Shutting down applications..."
     echo "======================================"
-    kill $ $BACKOFFICE_PID 2>/dev/null
-    wait $ $BACKOFFICE_PID  2>/dev/null
+    kill $ $BACKOFFICE_PID $FRONTREST_PID 2>/dev/null
+    wait $ $BACKOFFICE_PID $FRONTREST_PID 2>/dev/null
     echo "✅ Shutdown complete"
     exit 0
 }
@@ -72,4 +87,4 @@ cleanup() {
 trap cleanup SIGTERM SIGINT
 
 # Attendre que les processus se terminent
-wait  $BACKOFFICE_PID 
+wait  $BACKOFFICE_PID $FRONTREST_PID
