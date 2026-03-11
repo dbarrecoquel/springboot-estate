@@ -27,6 +27,7 @@ public class AdsMapper {
 		adsDto.setSurface(ads.getSurface());
 		adsDto.setCreatedAt(ads.getCreatedAt());
 		adsDto.setAdsTypeDto(adsTypeMapper.toDto(ads.getAdsType()));
+		adsDto.setUpdatedAt(ads.getUpdatedAt());
 		return adsDto;
 	}
 }

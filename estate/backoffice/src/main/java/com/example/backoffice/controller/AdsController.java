@@ -83,7 +83,6 @@ public class AdsController {
         }
     	ads.setAdstypeId(adstypeId);
         boolean isNew = ads.getId() == null;
-        ads.setUpdatedAt(LocalDateTime.now());
         adsService.saveAds(ads);
         ra.addFlashAttribute("successMessage",
                 isNew ? "Annonce créée avec succès." : "Annonce modifiée avec succès.");
