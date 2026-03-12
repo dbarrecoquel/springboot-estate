@@ -334,3 +334,18 @@ tbody td {
   border-top: 1px solid var(--border);
   background: var(--surface);
 }
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem 1.1rem;
+  border-top: 1px solid var(--border);
+  background: #faf8f5;
+}
+.pagination-info { font-size: .85rem; color: var(--muted); }
+.pagination-controls { display: flex; gap: .4rem; align-items: center; }
+.btn.disabled {
+  opacity: .4;
+  cursor: not-allowed;
+  pointer-events: none;
+}

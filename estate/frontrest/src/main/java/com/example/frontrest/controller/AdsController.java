@@ -1,17 +1,24 @@
 package com.example.frontrest.controller;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.ads.dto.AdsDto;
 import com.example.ads.mapper.AdsMapper;
 import com.example.ads.model.Ads;
 import com.example.ads.service.AdsService;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -28,12 +35,38 @@ public class AdsController {
 	}
 	
 	@GetMapping
-	public ResponseEntity<List<AdsDto>> getAllAds(){
-		List<AdsDto> list = adsService.getAllAds()
-				.stream()
-				.map(adsMapper::toDto)
-				.collect(Collectors.toList());
-		return ResponseEntity.ok(list);
+	public ResponseEntity<Map<String, Object>> getAllAds(
+	        @RequestParam(defaultValue = "0") int page,
+	        @RequestParam(defaultValue = "10") int size,
+	        @RequestParam(defaultValue = "id") String sortBy,
+	        @RequestParam(defaultValue = "asc") String direction,
+	        @RequestParam(required = false) String search,
+	        @RequestParam(required = false) Long adsType,
+	        @RequestParam(required = false) Double minPrice,
+	        @RequestParam(required = false) Double maxPrice) {
+
+	    Sort sort = direction.equalsIgnoreCase("desc")
+	            ? Sort.by(sortBy).descending()
+	            : Sort.by(sortBy).ascending();
+
+	    Pageable pageable = PageRequest.of(page, size, sort);
+
+	    Page<Ads> pageResult = adsService.findWithFilters(search, adsType, minPrice, maxPrice, pageable);
+
+	    List<AdsDto> content = pageResult.getContent()
+	            .stream()
+	            .map(adsMapper::toDto)
+	            .collect(Collectors.toList());
+
+	    Map<String, Object> response = new HashMap<>();
+	    response.put("content", content);
+	    response.put("page", pageResult.getNumber());
+	    response.put("size", pageResult.getSize());
+	    response.put("totalElements", pageResult.getTotalElements());
+	    response.put("totalPages", pageResult.getTotalPages());
+	    response.put("last", pageResult.isLast());
+
+	    return ResponseEntity.ok(response);
 	}
 	
 	@GetMapping("/{id}")

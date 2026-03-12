@@ -6,6 +6,11 @@ import com.example.ads.model.Ads;
 import com.example.ads.model.AdsType;
 import com.example.ads.service.AdsService;
 import com.example.ads.service.AdsTypeService;
+
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -33,12 +38,23 @@ public class AdsController {
 
     /* ── LIST ─────────────────────────────────────────────── */
     @GetMapping
-    public String list(Model model) {
-        List<AdsDto> adsDtos = adsService.getAllAds()
+    public String list(Model model,
+                       @RequestParam(defaultValue = "0") int page,
+                       @RequestParam(defaultValue = "10") int size) {
+
+        Pageable pageable = PageRequest.of(page, size, Sort.by("id").descending());
+        Page<Ads> pageResult = adsService.getAllAds(pageable);
+
+        List<AdsDto> adsDtos = pageResult.getContent()
                 .stream()
                 .map(adsMapper::toDto)
                 .collect(Collectors.toList());
+
         model.addAttribute("ads", adsDtos);
+        model.addAttribute("currentPage", pageResult.getNumber());
+        model.addAttribute("totalPages", pageResult.getTotalPages());
+        model.addAttribute("totalElements", pageResult.getTotalElements());
+        model.addAttribute("size", size);
         return "ads/list";
     }
 

@@ -61,7 +61,38 @@
         </tr>
       </tbody>
     </table>
-
+	<!-- Pagination -->
+	<div th:if="${totalPages > 1}" class="pagination">
+	  <span class="pagination-info">
+	    Page <strong th:text="${currentPage + 1}"></strong>
+	    sur <strong th:text="${totalPages}"></strong>
+	    — <span th:text="${totalElements}"></span> annonce(s)
+	  </span>
+	  <div class="pagination-controls">
+	    <!-- Précédent -->
+	    <a th:if="${currentPage > 0}"
+	       th:href="@{/ads(page=${currentPage - 1}, size=${size})}"
+	       class="btn btn-secondary btn-sm">← Précédent</a>
+	    <span th:unless="${currentPage > 0}" class="btn btn-secondary btn-sm disabled">← Précédent</span>
+	
+	    <!-- Pages numérotées -->
+	    <span th:each="i : ${#numbers.sequence(0, totalPages - 1)}">
+	      <a th:if="${i != currentPage}"
+	         th:href="@{/ads(page=${i}, size=${size})}"
+	         th:text="${i + 1}"
+	         class="btn btn-secondary btn-sm"></a>
+	      <span th:if="${i == currentPage}"
+	            th:text="${i + 1}"
+	            class="btn btn-primary btn-sm"></span>
+	    </span>
+	
+	    <!-- Suivant -->
+	    <a th:if="${currentPage + 1 < totalPages}"
+	       th:href="@{/ads(page=${currentPage + 1}, size=${size})}"
+	       class="btn btn-secondary btn-sm">Suivant →</a>
+	    <span th:unless="${currentPage + 1 < totalPages}" class="btn btn-secondary btn-sm disabled">Suivant →</span>
+	  </div>
+	</div>
     <div th:if="${#lists.isEmpty(ads)}" class="empty-state">
       <div class="empty-icon"></div>
       <p>Aucune annonce pour le moment.</p>

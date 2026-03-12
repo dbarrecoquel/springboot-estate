@@ -13,6 +13,7 @@ import jakarta.persistence.PrePersist;
 import jakarta.persistence.PreUpdate;
 import jakarta.persistence.FetchType;
 import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 @Entity
 @Table(name = "ads")
 public class Ads {
@@ -29,7 +30,7 @@ public class Ads {
     @Column(name = "adstype_id")
     private Long adstypeId;
 
-    @OneToOne(fetch = FetchType.EAGER)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "adstype_id", insertable = false, updatable = false)
     private AdsType adsType;
     @Column(name = "created_at", nullable = false)
