@@ -25,12 +25,31 @@ wait_for_postgres() {
     echo "❌ PostgreSQL did not become ready in time"
     exit 1
 }
+wait_for_kafka() {
+    echo "⏳ Waiting for Kafka to be ready..."
+    max_attempts=30
+    attempt=0
+
+    while [ $attempt -lt $max_attempts ]; do
+        if timeout 1 bash -c "cat < /dev/null > /dev/tcp/kafka/9092" 2>/dev/null; then
+            echo "✅ Kafka is ready!"
+            return 0
+        fi
+        echo "   Kafka is unavailable - sleeping (attempt $((attempt+1))/$max_attempts)"
+        sleep 2
+        attempt=$((attempt+1))
+    done
+
+    echo "❌ Kafka did not become ready in time"
+    exit 1
+}
 
 
 
 # Attendre PostgreSQL
 wait_for_postgres
 
+wait_for_kafka
 
 # Attendre encore un peu
 sleep 10

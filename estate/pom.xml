@@ -17,6 +17,7 @@
   	<module>backoffice</module>
   	<module>user</module>
   	<module>frontrest</module>
+  	<module>events</module>
   </modules>
    <dependencies>
         <dependency>

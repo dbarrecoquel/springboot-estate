@@ -47,7 +47,11 @@
             <artifactId>ads</artifactId>
             <version>${project.version}</version>
         </dependency>
-
+ 		<dependency>
+            <groupId>com.example</groupId>
+            <artifactId>events</artifactId>
+            <version>${project.version}</version>
+        </dependency>
 
         <!-- Jackson for JSON -->
         <dependency>

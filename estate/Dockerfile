@@ -11,6 +11,7 @@ RUN apt-get update && \
 COPY pom.xml .
 COPY user/pom.xml user/pom.xml
 COPY ads/pom.xml ads/pom.xml
+COPY events/pom.xml events/pom.xml
 COPY backoffice/pom.xml backoffice/pom.xml
 COPY frontrest/pom.xml frontrest/pom.xml
 
@@ -24,6 +25,7 @@ RUN mvn dependency:go-offline -DskipTests || \
 
 COPY user user
 COPY ads ads
+COPY events events
 COPY backoffice backoffice
 COPY frontrest frontrest
 

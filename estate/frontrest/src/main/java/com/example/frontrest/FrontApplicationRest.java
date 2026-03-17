@@ -7,7 +7,8 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication(scanBasePackages = {
     "com.example.frontrest", 
-    "com.example.ads"
+    "com.example.ads",
+    "com.example.events"
 })
 @EntityScan({
     "com.example.ads.model"

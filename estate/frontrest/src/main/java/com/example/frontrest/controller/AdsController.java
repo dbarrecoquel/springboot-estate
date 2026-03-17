@@ -15,6 +15,8 @@ import com.example.ads.dto.AdsDto;
 import com.example.ads.mapper.AdsMapper;
 import com.example.ads.model.Ads;
 import com.example.ads.service.AdsService;
+import com.example.events.model.AdViewEvent;
+import com.example.events.producer.EventProducer;
 
 import java.util.HashMap;
 import java.util.List;
@@ -29,9 +31,11 @@ public class AdsController {
 
 	private final AdsService adsService;
 	private final AdsMapper adsMapper;
-	public AdsController(AdsService adsService, AdsMapper adsMapper) {
+	private final EventProducer eventProducer;
+	public AdsController(AdsService adsService, AdsMapper adsMapper, EventProducer eventProducer) {
 		this.adsService = adsService;
 		this.adsMapper = adsMapper;
+		this.eventProducer = eventProducer;
 	}
 	
 	@GetMapping
@@ -74,6 +78,8 @@ public class AdsController {
 		
 		Optional<Ads> ads = adsService.getAdsById(id);
 		return ads.map(a -> {
+			AdViewEvent event = new AdViewEvent(a.getId(),a.getName(),a.getAdstypeId(),a.getAdsType().getName());
+			eventProducer.sendAdViewEvent(event);
 			return ResponseEntity.ok(adsMapper.toDto(a));
 		}).orElse(ResponseEntity.notFound().build());
 		
